@@ -1,0 +1,381 @@
+{% include 'partition/header.html' %}
+{% include 'partition/navbar.html' %}
+
+<div class="content-wrapper">
+
+    <!-- Modal ADD -->
+    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+            <form id="addDataForm" method="POST" enctype="multipart/form-data">
+              <div class="modal-body">
+                  <!-- Form for adding data -->                                    
+                      <div class="form-group">
+                          <label for="nama-barang">Nama Barang</label>
+                          <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+                      </div>
+                      <div class="form-group">
+                        <label for="panjang">Panjang</label>
+                        <input type="number" class="form-control" id="panjang" name="panjang" placeholder="Panjang">
+                      </div>
+                      <div class="form-group">
+                        <label for="lebar">Lebar</label>
+                        <input type="number" class="form-control" id="lebar" name="lebar" placeholder="Lebar">
+                      </div>
+                      <div class="form-group">
+                        <label for="tinggi">Tinggi</label>
+                        <input type="number" class="form-control" id="tinggi" name="tinggi" placeholder="Tinggi">
+                      </div>
+                      <div class="deskripsi">
+                        <label for="close">Deskripsi</label>
+                        <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Deskripsi">
+                      </div>
+                      <!-- Add more form fields as needed -->
+                    <div class="form-group">
+                        <label for="file-gambar">Preview Gambar</label>
+                        <input type="file" class="form-control-file" id="gambar" name="gambar" accept=".png,.jpg,.jpeg">
+                    </div>
+                    <div class="form-group">
+                        <label for="file-3D">File Objek 3D</label>
+                        <input type="file" class="form-control-file" id="objek_3d" name="objek_3d" accept=".obj">
+                    </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary" id="saveData">Simpan</button>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalKonfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+              <form id="formDelete" method="POST">
+                <div class="modal-body">
+                    <h6><b>Apakah yakin hapus objek ini?</b></h6>                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    
+      <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+              <form id="updateDataForm" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <!-- Form for adding data -->                                    
+                        <div class="form-group">
+                            <label for="nama-barang">Nama Barang</label>
+                            <input type="text" class="form-control" id="nama_barang_new" name="nama_barang_new" placeholder="Nama Barang">
+                        </div>
+                        <div class="form-group">
+                          <label for="panjang">Panjang</label>
+                          <input type="number" class="form-control" id="panjang_new" name="panjang_new" placeholder="Panjang">
+                        </div>
+                        <div class="form-group">
+                          <label for="lebar">Lebar</label>
+                          <input type="number" class="form-control" id="lebar_new" name="lebar_new" placeholder="Lebar">
+                        </div>
+                        <div class="form-group">
+                          <label for="tinggi">Tinggi</label>
+                          <input type="number" class="form-control" id="tinggi_new" name="tinggi_new" placeholder="Tinggi">
+                        </div>
+                        <div class="deskripsi">
+                          <label for="close">Deskripsi</label>
+                          <input type="text" class="form-control" id="deskripsi_new" name="deskripsi_new" placeholder="Deskripsi">
+                        </div>
+                        <!-- Add more form fields as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" id="updateData">Update</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>barang</h1>
+            </div>
+          </div>
+        </div>
+    </section>
+  
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">List barang</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="d-flex justify-content-start">
+                            <div class="col-2">                            
+                                <button id="btnAdd" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalAdd">
+                                  <i class="fa fa-plus"></i> Tambah
+                                </button>
+                            </div>  
+                            
+                          </div>
+                          <br>
+                          <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>                              
+                              <th>Nama Barang</th>
+                              <th>Preview</th>
+                              <th>Panjang</th>
+                              <th>Tinggi</th>
+                              <th>Lebar</th>
+                              <th>Deskripsi</th>
+                              <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for res in header_data['result'] %}                            
+                            <tr>                                                            
+                              <td>{{res[1]}}</td>
+                              <td>{{res[7]}}</td>
+                              <td>{{res[4]}}</td>
+                              <td>{{res[5]}}</td>
+                              <td>{{res[6]}}</td>
+                              <td>{{res[2]}}</td>
+                              <td>
+                                <button type="button"
+                                    id="{{res[0]}}"
+                                    nama="{{res[1]}}"
+                                    panjang="{{res[4]}}"
+                                    tinggi="{{res[5]}}"
+                                    lebar="{{res[6]}}"
+                                    deskripsi="{{res[2]}}"
+                                    class="btn btn-success btn-sm update"
+                                    title="Update Objek" data-toggle="modal" data-target="#modalUpdate"><i class="fa fa-edit"></i> Ubah Objek
+                                </button>
+
+                                <button type="button"
+                                    id="{{res[0]}}"
+                                    gambar="{{res[7]}}"
+                                    objek="{{res[3]}}"
+                                    class="btn btn-danger btn-sm delete"
+                                    title="Hapus Model" data-toggle="modal" data-target="#modalKonfirmasi"><i class="fa fa-trash"></i> Hapus Objek
+                                </button>
+                              </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+  </div>
+
+{% include 'partition/footer.html' %}
+
+<script>
+    $(function(){
+
+        var id,gambar,objek;
+
+        var Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        $('#addDataForm').submit(function(event){
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                  type: "POST",
+                  url: "/input_barang",
+                  data: formData,
+                  processData: false,
+                  contentType: false,
+                  success: function (response) {                  
+                    if (response.status === "success") {
+                      $('#modalAdd').modal('hide');                        
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Berhasil Tambah Data'
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    } else {                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.message
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    }
+                  },
+                  error: function (error) {
+                      $('#modalAdd').modal('hide');
+                      Toast.fire({
+                          icon: 'error',
+                          title: error.message
+                      });
+                  }
+                });
+
+
+        });
+
+        $(document).on('click', '.delete', function(){      
+            id = $(this).attr('id');
+            gambar = $(this).attr('gambar');
+            objek = $(this).attr('objek');            
+        });
+
+        $(document).on('click', '.update', function(){                  
+            id = $(this).attr('id');
+            $("#nama_barang_new").val($(this).attr('nama'));         
+            $("#panjang_new").val($(this).attr('panjang'));  
+            $("#tinggi_new").val($(this).attr('tinggi')); 
+            $("#lebar_new").val($(this).attr('lebar')); 
+            $("#deskripsi_new").val($(this).attr('deskripsi')); 
+        });
+
+        $('#updateDataForm').submit(function(event){
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            formData.append('id', id);
+
+            $.ajax({
+                  type: "POST",
+                  url: "/update_barang",
+                  data: formData,
+                  processData: false,
+                  contentType: false,
+                  success: function (response) {                  
+                    if (response.status === "success") {
+                      $('#modalUpdate').modal('hide');                        
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Berhasil Ubah Data'
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    } else {                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.message
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    }
+                  },
+                  error: function (error) {
+                      $('#modalUpdate').modal('hide');
+                      Toast.fire({
+                          icon: 'error',
+                          title: error.message
+                      });
+                  }
+                });
+
+
+        });
+
+        $('#formDelete').submit(function (event) {
+            event.preventDefault();                     
+
+            // Send data to the server (you can use AJAX or a form submission)
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("hapus_objek") }}', // URL for the Flask route to handle data insertion
+                data: {                    
+                    id: id,
+                    gambar: gambar,
+                    objek: objek                    
+                    // Add more form fields as needed
+                },
+                success: function (response) {
+                    if (response.status === 'success') {                        
+                        $('#modalKonfirmasi').modal('hide');                        
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.msg
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        // Handle the error message                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.message
+                        });
+
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    }
+                },
+                error: function (error) {
+                  $('#modalKonfirmasi').modal('hide');                        
+
+                  Toast.fire({
+                      icon: 'error',
+                      title: error.message
+                  });                   
+                }
+            });
+        });
+    });
+</script>
