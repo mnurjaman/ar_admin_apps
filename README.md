@@ -1,1 +1,1 @@
-# ar_admin_apps
+# Dashboard Admin for Augmented Reality Application
